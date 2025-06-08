@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
@@ -14,20 +15,20 @@
   <!-- Web App Manifest -->
   <link rel="manifest" href="manifest.json"> <!-- You need to upload this too -->
 
-<!-- Link to Comfortaa font -->
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+  <!-- Link to Comfortaa font -->
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
 
-<!-- PWA Manifest -->
-<link rel="manifest" href="manifest.json">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
 
-<!-- Icon for PWA -->
-<link rel="icon" type="image/png" href="icon.png">
+  <!-- Icon for PWA -->
+  <link rel="icon" type="image/png" href="icon.png">
 
-<!-- iOS support -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="PipsCalc">
-<link rel="apple-touch-icon" href="icon.png">
+  <!-- iOS support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PipsCalc">
+  <link rel="apple-touch-icon" href="icon.png">
 
 
   <!-- Google Fonts -->
@@ -50,7 +51,7 @@
       background-color: #fff;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     }
 
     label {
@@ -59,7 +60,8 @@
       font-weight: bold;
     }
 
-    select, input[type="text"] {
+    select,
+    input[type="text"] {
       width: 100%;
       padding: 10px;
       font-size: 16px;
@@ -116,7 +118,9 @@
     }
   </style>
 </head>
-<body style="background-image: url('bg.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; font-family: 'Comfortaa', cursive;">
+
+<body
+  style="background-image: url('bg.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; font-family: 'Comfortaa', cursive;">
   <div class="container">
     <h1>Forex Pips Calculator</h1>
 
@@ -167,7 +171,7 @@
         let pipValue = 0.0001;
         let pipUSDPerLot = 10.0;
 
-        switch(pair) {
+        switch (pair) {
           case 'xauusd':
             pipValue = 0.01;
             pipUSDPerLot = 1.00;
@@ -185,12 +189,15 @@
         }
 
         let pips = Math.abs(exit - entry) / pipValue;
+        let profitLoss;
 
         if (pair === 'xauusd') {
-          pips = pips / 10;
+          pips = pips / 10; // Keep this division as per your visual pips format
+          profitLoss = (pips * 10) * lotSize; // Your custom Gold profit formula
+        } else {
+          profitLoss = (pips * pipUSDPerLot) * lotSize;
         }
 
-        const profitLoss = (pips * pipUSDPerLot) * lotSize;
 
         document.getElementById("pipsResult").textContent = `Pips: ${pips.toFixed(1)}`;
         document.getElementById("usdResult").textContent = `Profit/Loss (USD): $${profitLoss.toFixed(2)}`;
@@ -202,4 +209,5 @@
     }
   </script>
 </body>
+
 </html>
