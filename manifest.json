@@ -1,0 +1,15 @@
+{
+  "name": "Forex Pips Calculator",
+  "short_name": "PipsCalc",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f9fafc",
+  "theme_color": "#4A6CD4",
+  "icons": [
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
