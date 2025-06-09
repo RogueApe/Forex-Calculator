@@ -406,8 +406,15 @@
 
         // If lot is either empty or was generated earlier, and target profit is given
         if (!isNaN(targetProfit) && profitPerLot) {
-          const generatedLot = targetProfit / profitPerLot;
-          lotInput.value = generatedLot.toFixed(2);
+
+
+          generatedLot = targetProfit / profitPerLot;
+          const finalLot = Math.max(0.01, parseFloat(generatedLot.toFixed(2)));
+          lotInput.value = finalLot;
+          lot = finalLot;
+
+
+
           lotInput.classList.add('generated-lot');
 
           // Reset + re-trigger animation
@@ -461,11 +468,10 @@
 
       document.getElementById('pips').textContent = Math.round(pips);
       document.getElementById('rr').textContent = rr;
-      document.getElementById('profitusd').textContent = Math.round(profit);
-      document.getElementById('profitmyr').textContent = Math.round(profit * conversion);
-      document.getElementById('lossusd').textContent = Math.round(loss);
-      document.getElementById('lossmyr').textContent = Math.round(loss * conversion);
-
+      document.getElementById('profitusd').textContent = profit.toFixed(1);
+      document.getElementById('profitmyr').textContent = (conversion && profit ? (profit * conversion).toFixed(1) : '-');
+      document.getElementById('lossusd').textContent = loss.toFixed(1);
+      document.getElementById('lossmyr').textContent = (conversion && loss ? (loss * conversion).toFixed(1) : '-');
       document.getElementById('riskpercent').textContent = riskPercent + '%';
 
       const riskClass = riskPercent === '-' ? '' :
