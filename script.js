@@ -1,3 +1,28 @@
+// iOS touch input fix for iPhone Home Screen standalone mode
+document.addEventListener('touchstart', function () { }, true);
+
+// Fix for input fields not focusing when web app is added to Home Screen
+window.addEventListener('load', function () {
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        input.addEventListener('touchend', function () {
+            this.focus();
+        });
+    });
+});
+
+const bgImages = [
+    'images/bg1.jpg',
+    'images/bg2.jpg',
+    'images/bg3.jpg',
+    'images/bg4.jpg',
+    'images/bg5.jpg',
+    'images/bg6.jpg',
+    'images/bg7.jpg',
+    'images/bg8.jpg'
+];
+
+
 function calculate() {
     const pair = document.getElementById('pair').value;
     const capital = parseFloat(document.getElementById('capital').value);
@@ -161,20 +186,6 @@ function changeBackground() {
 
 setInterval(changeBackground, 8000); // Change image every 8 seconds
 changeBackground(); // Run once on load
-
-// iOS touch event fix for Home Screen web apps
-document.addEventListener('touchstart', function () { }, true);
-
-const bgImages = [
-    'images/bg1.jpg',
-    'images/bg2.jpg',
-    'images/bg3.jpg',
-    'images/bg4.jpg',
-    'images/bg5.jpg',
-    'images/bg6.jpg',
-    'images/bg7.jpg',
-    'images/bg8.jpg'
-];
 
 let current = 0;
 
