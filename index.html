@@ -8,7 +8,7 @@
   <!-- iOS support -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Pips Calculator (by VP)">
+  <meta name="apple-mobile-web-app-title" content="FX Pips Calculator">
 
   <!-- Prevent Zoom on Input Tap (iOS)  -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -23,7 +23,6 @@
   <!-- for title font -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
-
   <title>Forex Pips Calculator</title>
   <link rel="icon" href="icon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Poppins:wght@600&display=swap"
@@ -65,32 +64,31 @@
     <label>Account Capital (USD):</label>
     <input inputmode="decimal" pattern="[0-9]*" id="capital" />
 
-
     <label>Conversion Rate (1 USD to MYR):</label>
-    <input type="number" id="conversion" />
+    <input inputmode="decimal" pattern="[0-9]*" id="conversion" />
 
     <label>Lot Size:</label>
-    <input type="number" id="lot" step="0.01" />
+    <input inputmode="decimal" pattern="[0-9]*" id="lot" step="0.01" />
 
     <label>Entry Price:</label>
-    <input type="number" id="entry" />
+    <input inputmode="decimal" pattern="[0-9]*" id="entry" />
 
     <!-- Temporarily delete this as I don't need this input -->
     <!-- <label>Exit Price:</label>
     <input type="number" id="exit" /> -->
 
     <label>TP Price:</label>
-    <input type="number" id="tp" />
+    <input inputmode="decimal" pattern="[0-9]*" id="tp" />
 
     <label>SL Price:</label>
-    <input type="number" id="sl" />
+    <input inputmode="decimal" pattern="[0-9]*" id="sl" />
 
     <button onclick="calculate()">Calculate</button>
 
     <!-- "Action": "Add new input field for Target Profit (USD)" -->
     <!-- Newly added in version 0.2.2 -->
     <label>Target Profit (USD):</label>
-    <input type="number" id="targetProfit" />
+    <input inputmode="decimal" pattern="[0-9]*" id="targetProfit" />
 
     <div class="result" id="resultBox" style="display:none;">
       <h3>Result</h3>
