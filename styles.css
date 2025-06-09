@@ -9,7 +9,7 @@ body {
 /* Add the rest of your styles here */
 body {
     font-family: 'Comfortaa', sans-serif;
-    background: url('bg.jpg') no-repeat center center fixed;
+    background: url('images/bg1.jpg') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 0;
