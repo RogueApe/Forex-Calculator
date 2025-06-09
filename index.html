@@ -13,6 +13,10 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
 
+  <!-- for title font -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+
+
   <title>Forex Pips Calculator</title>
   <link rel="icon" href="icon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Poppins:wght@600&display=swap"
@@ -229,6 +233,19 @@
         font-size: 16px;
       }
     }
+
+    @font-face {
+      font-family: 'Av08MGS';
+      src: url('fonts/av08-ration-mgs1.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .subtitle {
+      font-family: 'Av08MGS', sans-serif;
+      font-size: 12px;
+      font-style: italic;
+    }
   </style>
 
 
@@ -236,7 +253,15 @@
 
 <body>
   <div class="container">
-    <h2>Forex Pips Calculator</h2>
+    <h2 style="font-family: 'Oswald', sans-serif; font-size: 28px; line-height: 1.75; margin-bottom: 5px;">
+      Forex Pips Calculator
+      <div
+        style="font-size: 4px; font-weight: normal; font-family: 'Av08MGS', sans-serif; line-height: 1.2;">
+        (developed by VP)
+      </div>
+    </h2>
+
+
 
     <label>Currency Pair:</label>
     <select id="pair">
