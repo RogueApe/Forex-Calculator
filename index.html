@@ -363,7 +363,9 @@
       const profitMYR = conversion && profit ? (profit * conversion).toFixed(2) : '-';
       const lossMYR = conversion && loss ? (loss * conversion).toFixed(2) : '-';
 
-      document.getElementById('pips').textContent = pips.toFixed(2);
+      // document.getElementById('pips').textContent = pips.toFixed(2);
+      /* Remove the pips decimal point  */
+      document.getElementById('pips').textContent = Math.round(pips);
       document.getElementById('rr').textContent = rr;
       document.getElementById('profitusd').textContent = profit.toFixed(2);
       document.getElementById('profitmyr').textContent = profitMYR;
