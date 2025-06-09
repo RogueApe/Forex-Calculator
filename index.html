@@ -4,6 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- iOS support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Pips Calculator (by VP)">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+
   <title>Forex Pips Calculator</title>
   <link rel="icon" href="icon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Poppins:wght@600&display=swap"
@@ -95,6 +104,8 @@
 
     .result p span {
       font-weight: bold;
+      display: inline-block;
+      /* <-- this makes animation visible */
     }
 
     .highlight-green {
@@ -112,13 +123,13 @@
     }
 
     .result span.risk-orange {
-      color: orange;
-      animation: mildShake 0.5s ease;
+      color: darkorange;
+      animation: mildShake 1.25s ease;
     }
 
     .result span.risk-danger {
       color: red;
-      animation: heavyShake 0.6s ease;
+      animation: heavyShake 1.75s ease;
     }
 
 
@@ -148,27 +159,8 @@
       }
     }
 
+    /* update animation for medium and heavy */
     @keyframes mildShake {
-
-      0%,
-      100% {
-        transform: translateX(0);
-      }
-
-      25% {
-        transform: translateX(-3px);
-      }
-
-      50% {
-        transform: translateX(3px);
-      }
-
-      75% {
-        transform: translateX(-2px);
-      }
-    }
-
-    @keyframes heavyShake {
 
       0%,
       100% {
@@ -184,13 +176,47 @@
       }
 
       60% {
-        transform: translateX(-5px);
+        transform: translateX(-4px);
       }
 
       80% {
-        transform: translateX(5px);
+        transform: translateX(4px);
       }
     }
+
+    @keyframes heavyShake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      10% {
+        transform: translateX(-10px);
+      }
+
+      20% {
+        transform: translateX(10px);
+      }
+
+      30% {
+        transform: translateX(-8px);
+      }
+
+      40% {
+        transform: translateX(8px);
+      }
+
+      50% {
+        transform: translateX(-6px);
+      }
+
+      60% {
+        transform: translateX(6px);
+      }
+    }
+
+
 
     @media screen and (max-width: 768px) {
       .container {
@@ -226,8 +252,9 @@
     <label>Entry Price:</label>
     <input type="number" id="entry" />
 
-    <label>Exit Price:</label>
-    <input type="number" id="exit" />
+    <!-- Temporarily delete this as I don't need this input -->
+    <!-- <label>Exit Price:</label>
+    <input type="number" id="exit" /> -->
 
     <label>TP Price:</label>
     <input type="number" id="tp" />
@@ -260,7 +287,7 @@
       const conversion = parseFloat(document.getElementById('conversion').value);
       const lot = parseFloat(document.getElementById('lot').value);
       const entry = parseFloat(document.getElementById('entry').value);
-      const exit = parseFloat(document.getElementById('exit').value);
+      // const exit = parseFloat(document.getElementById('exit').value);
       const tp = parseFloat(document.getElementById('tp').value);
       const sl = parseFloat(document.getElementById('sl').value);
 
@@ -271,10 +298,14 @@
       const calcPips = (a, b) => Math.abs(a - b);
       const calcRR = () => (!isNaN(tp) && !isNaN(sl)) ? (Math.abs(entry - tp) / Math.abs(entry - sl)).toFixed(2) : '-';
 
+      /*     if (!isNaN(entry)) {
+            let priceDiff = 0;
+            if (!isNaN(exit)) priceDiff = calcPips(entry, exit);
+            else if (!isNaN(tp)) priceDiff = calcPips(entry, tp); */
+
       if (!isNaN(entry)) {
         let priceDiff = 0;
-        if (!isNaN(exit)) priceDiff = calcPips(entry, exit);
-        else if (!isNaN(tp)) priceDiff = calcPips(entry, tp);
+        if (!isNaN(tp)) priceDiff = calcPips(entry, tp);
 
         switch (pair) {
           case "xauusd":
