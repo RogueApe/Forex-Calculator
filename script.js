@@ -161,3 +161,35 @@ function changeBackground() {
 
 setInterval(changeBackground, 8000); // Change image every 8 seconds
 changeBackground(); // Run once on load
+
+const bgImages = [
+    'images/bg1.jpg',
+    'images/bg2.jpg',
+    'images/bg3.jpg',
+    'images/bg4.jpg',
+    'images/bg5.jpg',
+    'images/bg6.jpg',
+    'images/bg7.jpg',
+    'images/bg8.jpg'
+];
+
+let current = 0;
+
+const slides = document.querySelectorAll('.bg-slide');
+
+// Initialize first image
+slides[0].style.backgroundImage = `url(${bgImages[0]})`;
+slides[0].classList.add('active');
+
+setInterval(() => {
+    const next = (current + 1) % bgImages.length;
+    const currentSlide = slides[current % 2];
+    const nextSlide = slides[(current + 1) % 2];
+
+    nextSlide.style.backgroundImage = `url(${bgImages[next]})`;
+
+    currentSlide.classList.remove('active');
+    nextSlide.classList.add('active');
+
+    current = next;
+}, 8000); // Change every 8s
