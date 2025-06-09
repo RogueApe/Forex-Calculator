@@ -44,7 +44,7 @@ body {
 .container {
     max-width: 500px;
     margin: 30px auto;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: rgba(255, 255, 255, 0.75); /* changed from 0.92 */  
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -373,5 +373,11 @@ button:hover {
 
     100% {
         opacity: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        background-color: rgba(255, 255, 255, 0.75);
     }
 }
