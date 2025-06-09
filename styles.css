@@ -58,7 +58,7 @@ h2 {
 label {
     display: block;
     margin-top: 12px;
-    font-weight: bold;
+    font-weight: 700; /*changed to 700 due to mobile is ignore bold*/
 }
 
 input,
