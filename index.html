@@ -254,6 +254,17 @@
       document.getElementById('resultBox').style.display = 'block';
     }
 
+    // for background slideshow
+    const images = ['images/bg1.jpg', 'images/bg2.jpg', 'images/bg3.jpg'];
+    let currentImage = 0;
+
+    function changeBackground() {
+      document.body.style.backgroundImage = `url('${images[currentImage]}')`;
+      currentImage = (currentImage + 1) % images.length;
+    }
+
+    setInterval(changeBackground, 8000); // Change image every 8 seconds
+    changeBackground(); // Run once on load
   </script>
 </body>
 
