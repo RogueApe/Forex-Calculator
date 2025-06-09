@@ -162,6 +162,9 @@ function changeBackground() {
 setInterval(changeBackground, 8000); // Change image every 8 seconds
 changeBackground(); // Run once on load
 
+// iOS touch event fix for Home Screen web apps
+document.addEventListener('touchstart', function () { }, true);
+
 const bgImages = [
     'images/bg1.jpg',
     'images/bg2.jpg',
