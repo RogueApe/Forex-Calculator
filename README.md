@@ -1,2 +1,2 @@
 # Forex-Calculator
-Customize pips calculator
+Customize pips calculator for personal use only.
