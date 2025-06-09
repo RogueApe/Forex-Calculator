@@ -246,6 +246,62 @@
       font-size: 12px;
       font-style: italic;
     }
+
+    /* newly added in version 0.2.2 */
+    .generated-lot {
+      color: purple;
+      font-weight: bold;
+      animation: lotGlow 1s ease-in-out;
+    }
+
+    @keyframes lotGlow {
+      0% {
+        box-shadow: 0 0 4px purple;
+        transform: scale(1.05);
+      }
+
+      50% {
+        box-shadow: 0 0 12px purple;
+        transform: scale(1.1);
+      }
+
+      100% {
+        box-shadow: none;
+        transform: scale(1);
+      }
+    }
+
+    /* newly added for lot size generator in vers.0.2.2 */
+    @keyframes lotShakeRotate {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      25% {
+        transform: rotate(-4deg) scale(1.04);
+      }
+
+      50% {
+        transform: rotate(4deg) scale(1.05);
+      }
+
+      75% {
+        transform: rotate(-2deg) scale(1.03);
+      }
+
+      100% {
+        transform: rotate(0deg) scale(1);
+      }
+    }
+
+    .lotShake {
+      animation: lotShakeRotate 1s ease-in-out;
+    }
+
+    #targetProfit {
+      color: purple;
+      font-weight: bold;
+    }
   </style>
 
 
@@ -255,8 +311,7 @@
   <div class="container">
     <h2 style="font-family: 'Oswald', sans-serif; font-size: 28px; line-height: 1.75; margin-bottom: 5px;">
       Forex Pips Calculator
-      <div
-        style="font-size: 4px; font-weight: normal; font-family: 'Av08MGS', sans-serif; line-height: 1.2;">
+      <div style="font-size: 4px; font-weight: normal; font-family: 'Av08MGS', sans-serif; line-height: 1.2;">
         (developed by VP)
       </div>
     </h2>
@@ -295,6 +350,11 @@
 
     <button onclick="calculate()">Calculate</button>
 
+    <!-- "Action": "Add new input field for Target Profit (USD)" -->
+    <!-- Newly added in version 0.2.2 -->
+    <label>Target Profit (USD):</label>
+    <input type="number" id="targetProfit" />
+
     <div class="result" id="resultBox" style="display:none;">
       <h3>Result</h3>
       <p>Pips: <span id="pips"></span></p>
@@ -316,23 +376,59 @@
       const pair = document.getElementById('pair').value;
       const capital = parseFloat(document.getElementById('capital').value);
       const conversion = parseFloat(document.getElementById('conversion').value);
-      const lot = parseFloat(document.getElementById('lot').value);
+      const lotInput = document.getElementById('lot');
+      let lot = parseFloat(lotInput.value);
       const entry = parseFloat(document.getElementById('entry').value);
-      // const exit = parseFloat(document.getElementById('exit').value);
       const tp = parseFloat(document.getElementById('tp').value);
       const sl = parseFloat(document.getElementById('sl').value);
+      const targetProfit = parseFloat(document.getElementById('targetProfit').value);
+
+      let autoPips = 0;
+      let profitPerLot = 0;
+      let generatedLot = null;
+
+      if (!isNaN(entry) && !isNaN(tp)) {
+        switch (pair) {
+          case "xauusd":
+            autoPips = Math.abs(entry - tp) * 10;
+            profitPerLot = autoPips * 10;
+            break;
+          case "eurusd":
+          case "gbpusd":
+            autoPips = Math.abs(entry - tp) * 10000;
+            profitPerLot = autoPips * 10;
+            break;
+          case "gbpjpy":
+            autoPips = Math.abs(entry - tp) * 1000;
+            profitPerLot = autoPips * 0.695;
+            break;
+        }
+
+        // If lot is either empty or was generated earlier, and target profit is given
+        if (!isNaN(targetProfit) && profitPerLot) {
+          const generatedLot = targetProfit / profitPerLot;
+          lotInput.value = generatedLot.toFixed(2);
+          lotInput.classList.add('generated-lot');
+
+          // Reset + re-trigger animation
+          lotInput.classList.remove('lotShake');
+          void lotInput.offsetWidth;
+          lotInput.classList.add('lotShake');
+
+          lot = parseFloat(generatedLot.toFixed(2));
+        } else {
+          lotInput.classList.remove('generated-lot');
+          lotInput.classList.remove('lotShake');
+        }
+
+      }
 
       let pips = 0;
       let profit = 0;
       let loss = 0;
 
       const calcPips = (a, b) => Math.abs(a - b);
-      const calcRR = () => (!isNaN(tp) && !isNaN(sl)) ? (Math.abs(entry - tp) / Math.abs(entry - sl)).toFixed(2) : '-';
-
-      /*     if (!isNaN(entry)) {
-            let priceDiff = 0;
-            if (!isNaN(exit)) priceDiff = calcPips(entry, exit);
-            else if (!isNaN(tp)) priceDiff = calcPips(entry, tp); */
+      const calcRR = () => (!isNaN(tp) && !isNaN(sl)) ? (Math.abs(entry - tp) / Math.abs(entry - sl)).toFixed(1) : '-';
 
       if (!isNaN(entry)) {
         let priceDiff = 0;
@@ -363,14 +459,13 @@
       const profitMYR = conversion && profit ? (profit * conversion).toFixed(2) : '-';
       const lossMYR = conversion && loss ? (loss * conversion).toFixed(2) : '-';
 
-      // document.getElementById('pips').textContent = pips.toFixed(2);
-      /* Remove the pips decimal point  */
       document.getElementById('pips').textContent = Math.round(pips);
       document.getElementById('rr').textContent = rr;
-      document.getElementById('profitusd').textContent = profit.toFixed(2);
-      document.getElementById('profitmyr').textContent = profitMYR;
-      document.getElementById('lossusd').textContent = loss.toFixed(2);
-      document.getElementById('lossmyr').textContent = lossMYR;
+      document.getElementById('profitusd').textContent = Math.round(profit);
+      document.getElementById('profitmyr').textContent = Math.round(profit * conversion);
+      document.getElementById('lossusd').textContent = Math.round(loss);
+      document.getElementById('lossmyr').textContent = Math.round(loss * conversion);
+
       document.getElementById('riskpercent').textContent = riskPercent + '%';
 
       const riskClass = riskPercent === '-' ? '' :
@@ -380,36 +475,49 @@
       const audioGood = document.getElementById("audioGood");
       const audioCaution = document.getElementById("audioCaution");
       const audioDanger = document.getElementById("audioDanger");
+      // update 
+      const pipsSpan = document.getElementById('pips');
+      const rrSpan = document.getElementById('rr');
+      const profitUsdSpan = document.getElementById('profitusd');
+      const profitMyrSpan = document.getElementById('profitmyr');
+      const lossUsdSpan = document.getElementById('lossusd');
+      const lossMyrSpan = document.getElementById('lossmyr');
+      const riskPercentSpan = document.getElementById('riskpercent');
 
-
-      // update new animation 09 June 2025
-      const resultBox = document.getElementById('resultBox');
-
-      const spans = document.querySelectorAll('#resultBox span');
-
-      // Remove all animation classes from spans
-      spans.forEach(span => {
+      // First, clear all classes and reset animation
+      [pipsSpan, rrSpan, profitUsdSpan, profitMyrSpan, lossUsdSpan, lossMyrSpan, riskPercentSpan].forEach(span => {
         span.classList.remove('risk-blue', 'risk-orange', 'risk-danger');
-        void span.offsetWidth; // Force reflow to reset animation
+        void span.offsetWidth;
       });
 
-      // Apply the correct animation class based on risk %
-      if (riskPercent <= 10) {
-        spans.forEach(span => span.classList.add('risk-blue'));
-        audioGood.play();
-      } else if (riskPercent <= 25) {
-        spans.forEach(span => span.classList.add('risk-orange'));
-        audioCaution.play();
-      } else {
-        spans.forEach(span => span.classList.add('risk-danger'));
-        audioDanger.play();
+      // Always apply light blue for pips, RR, profit
+      [pipsSpan, rrSpan, profitUsdSpan, profitMyrSpan].forEach(span => {
+        span.classList.add('risk-blue');
+      });
+
+      // Always apply red for loss (in case it's removed elsewhere accidentally)
+      lossUsdSpan.classList.add('highlight-red');
+      lossMyrSpan.classList.add('highlight-red');
+
+      // Only risk percent uses risk logic
+      const numericRisk = parseFloat(riskPercent);
+      if (!isNaN(numericRisk)) {
+        if (numericRisk <= 10) {
+          riskPercentSpan.classList.add('risk-blue');
+          audioGood.play();
+        } else if (numericRisk <= 25) {
+          riskPercentSpan.classList.add('risk-orange');
+          audioCaution.play();
+        } else {
+          riskPercentSpan.classList.add('risk-danger');
+          audioDanger.play();
+        }
       }
-
-
 
 
       document.getElementById('resultBox').style.display = 'block';
     }
+
   </script>
 </body>
 
