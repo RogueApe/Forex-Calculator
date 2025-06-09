@@ -3,209 +3,348 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Forex Pips Calculator</title>
-
-  <!-- Apple Web App (iOS Home Screen) -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="PipsCalc">
-  <link rel="apple-touch-icon" href="https://example.com/icon.png"> <!-- Replace with your icon -->
-
-  <!-- Web App Manifest -->
-  <link rel="manifest" href="manifest.json"> <!-- You need to upload this too -->
-
-  <!-- Link to Comfortaa font -->
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
-
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Icon for PWA -->
-  <link rel="icon" type="image/png" href="icon.png">
-
-  <!-- iOS support -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="PipsCalc">
-  <link rel="apple-touch-icon" href="icon.png">
-
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Poppins:wght@600&display=swap"
+    rel="stylesheet" />
 
   <style>
     body {
-      font-family: 'Comfortaa', Arial, sans-serif;
-      text-align: center;
+      font-family: 'Comfortaa', sans-serif;
+      background: url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
       margin: 0;
-      padding: 20px;
-      background-color: #f9fafc;
+      padding: 0;
+      color: #000;
     }
 
     .container {
-      max-width: 400px;
-      margin: auto;
-      background-color: #fff;
+      max-width: 500px;
+      margin: 30px auto;
+      background-color: rgba(255, 255, 255, 0.92);
       padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
       margin-top: 12px;
-      font-weight: bold;
     }
 
-    select,
-    input[type="text"] {
+    input,
+    select {
       width: 100%;
       padding: 10px;
-      font-size: 16px;
-      font-family: 'Comfortaa', Arial, sans-serif;
+      margin-top: 4px;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-top: 5px;
+      border-radius: 5px;
+      font-family: 'Comfortaa', sans-serif;
+      color: #003399;
       box-sizing: border-box;
     }
 
-    select {
-      font-size: 15px;
-      height: 40px;
-    }
-
-    input[type="text"] {
-      color: #4A6CD4;
+    input[readonly] {
+      background-color: #f2f2f2;
+      color: black;
+      font-weight: bold;
     }
 
     button {
-      margin-top: 20px;
       width: 100%;
-      font-size: 18px;
       padding: 14px;
-      background-color: #4A6CD4;
+      background-color: #003399;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 16px;
       cursor: pointer;
-      font-family: 'Comfortaa', Arial, sans-serif;
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background-color: #3f5bb0;
+      background-color: #002080;
+      box-shadow: 0 0 10px #003399;
     }
 
-    #resultsBox {
+    .result {
       margin-top: 25px;
-      border: 2px solid #4A6CD4;
-      border-radius: 12px;
-      padding: 15px 20px;
-      background-color: #eef1ff;
-      display: none;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      animation: fadeIn 1s ease;
     }
 
-    #resultsBox p {
-      margin: 10px 0;
-      font-size: 16px;
+    /* Add underline */
+    .result h3 {
+      margin-bottom: 10px;
+      text-decoration: underline;
     }
 
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
+    .result p span {
+      font-weight: bold;
+    }
+
+    .highlight-green {
+      color: #00b050;
+    }
+
+    .highlight-red {
+      color: red;
+    }
+
+    /* Only apply color/animation to span values, not the whole resultBox text */
+    .result span.risk-blue {
+      color: #4285f4;
+      animation: lightPulse 2s ease-out;
+    }
+
+    .result span.risk-orange {
+      color: orange;
+      animation: mildShake 0.5s ease;
+    }
+
+    .result span.risk-danger {
+      color: red;
+      animation: heavyShake 0.6s ease;
+    }
+
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes lightPulse {
+      0% {
+        text-shadow: 0 0 4px #aaf;
+      }
+
+      50% {
+        text-shadow: 0 0 12px #4285f4;
+        transform: scale(1.03);
+      }
+
+      100% {
+        text-shadow: none;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes mildShake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-3px);
+      }
+
+      50% {
+        transform: translateX(3px);
+      }
+
+      75% {
+        transform: translateX(-2px);
+      }
+    }
+
+    @keyframes heavyShake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20% {
+        transform: translateX(-6px);
+      }
+
+      40% {
+        transform: translateX(6px);
+      }
+
+      60% {
+        transform: translateX(-5px);
+      }
+
+      80% {
+        transform: translateX(5px);
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        margin: 15px;
+      }
     }
   </style>
+
+
 </head>
 
-<body
-  style="background-image: url('bg.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; font-family: 'Comfortaa', cursive;">
+<body>
   <div class="container">
-    <h1>Forex Pips Calculator</h1>
+    <h2>Forex Pips Calculator</h2>
 
-    <label for="pair">Currency Pair</label>
+    <label>Currency Pair:</label>
     <select id="pair">
       <option value="xauusd">XAU/USD</option>
-      <option value="gbpjpy">GBP/JPY</option>
-      <option value="gbpusd">GBP/USD</option>
       <option value="eurusd">EUR/USD</option>
-      <option value="usdjpy">USD/JPY</option>
+      <option value="gbpusd">GBP/USD</option>
+      <option value="gbpjpy">GBP/JPY</option>
     </select>
 
-    <label for="lotSize">Lot Size</label>
-    <input type="text" id="lotSize" placeholder="e.g. 0.01" inputmode="decimal">
+    <label>Account Capital (USD):</label>
+    <input type="number" id="capital" />
 
-    <label for="entry">Entry Price</label>
-    <input type="text" id="entry" placeholder="e.g. 1.2345" inputmode="decimal">
+    <label>Conversion Rate (1 USD to MYR):</label>
+    <input type="number" id="conversion" />
 
-    <label for="exit">Exit Price</label>
-    <input type="text" id="exit" placeholder="e.g. 1.2395" inputmode="decimal">
+    <label>Lot Size:</label>
+    <input type="number" id="lot" step="0.01" />
 
-    <button onclick="calculatePips()">Calculate</button>
+    <label>Entry Price:</label>
+    <input type="number" id="entry" />
 
-    <div id="resultsBox">
-      <p id="pipsResult">Pips: </p>
-      <p id="usdResult">Profit/Loss (USD): </p>
+    <label>Exit Price:</label>
+    <input type="number" id="exit" />
+
+    <label>TP Price:</label>
+    <input type="number" id="tp" />
+
+    <label>SL Price:</label>
+    <input type="number" id="sl" />
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="resultBox" style="display:none;">
+      <h3>Result</h3>
+      <p>Pips: <span id="pips"></span></p>
+      <p>RR Ratio: <span id="rr"></span></p>
+      <p>Profit (USD): <span id="profitusd" class="highlight-green"></span></p>
+      <p>Profit (MYR): <span id="profitmyr" class="highlight-green"></span></p>
+      <p>Price Loss (USD): <span id="lossusd" class="highlight-red"></span></p>
+      <p>Price Loss (MYR): <span id="lossmyr" class="highlight-red"></span></p>
+      <p>Risk (by %): <span id="riskpercent"></span></p>
     </div>
   </div>
 
+  <audio id="audioGood" src="good.mp3" preload="auto"></audio>
+  <audio id="audioCaution" src="caution.mp3" preload="auto"></audio>
+  <audio id="audioDanger" src="danger.mp3" preload="auto"></audio>
+
   <script>
-    function parseNumber(value) {
-      if (!value) return NaN;
-      return parseFloat(value.replace(',', '.'));
-    }
+    function calculate() {
+      const pair = document.getElementById('pair').value;
+      const capital = parseFloat(document.getElementById('capital').value);
+      const conversion = parseFloat(document.getElementById('conversion').value);
+      const lot = parseFloat(document.getElementById('lot').value);
+      const entry = parseFloat(document.getElementById('entry').value);
+      const exit = parseFloat(document.getElementById('exit').value);
+      const tp = parseFloat(document.getElementById('tp').value);
+      const sl = parseFloat(document.getElementById('sl').value);
 
-    function calculatePips() {
-      try {
-        const pair = document.getElementById("pair").value;
-        const lotSize = parseNumber(document.getElementById("lotSize").value);
-        const entry = parseNumber(document.getElementById("entry").value);
-        const exit = parseNumber(document.getElementById("exit").value);
+      let pips = 0;
+      let profit = 0;
+      let loss = 0;
 
-        if (isNaN(lotSize) || isNaN(entry) || isNaN(exit)) {
-          alert("Please enter valid numbers.");
-          return;
-        }
+      const calcPips = (a, b) => Math.abs(a - b);
+      const calcRR = () => (!isNaN(tp) && !isNaN(sl)) ? (Math.abs(entry - tp) / Math.abs(entry - sl)).toFixed(2) : '-';
 
-        let pipValue = 0.0001;
-        let pipUSDPerLot = 10.0;
+      if (!isNaN(entry)) {
+        let priceDiff = 0;
+        if (!isNaN(exit)) priceDiff = calcPips(entry, exit);
+        else if (!isNaN(tp)) priceDiff = calcPips(entry, tp);
 
         switch (pair) {
-          case 'xauusd':
-            pipValue = 0.01;
-            pipUSDPerLot = 1.00;
+          case "xauusd":
+            pips = priceDiff * 10;
+            profit = !isNaN(tp) ? pips * 10 * lot : 0;
+            loss = !isNaN(sl) ? calcPips(entry, sl) * 10 * 10 * lot : 0;
             break;
-          case 'gbpjpy':
-          case 'usdjpy':
-            pipValue = 0.01;
-            pipUSDPerLot = 9.13;
+          case "eurusd":
+          case "gbpusd":
+            pips = priceDiff * 10000;
+            profit = !isNaN(tp) ? pips * 10 * lot : 0;
+            loss = !isNaN(sl) ? calcPips(entry, sl) * 10000 * 10 * lot : 0;
             break;
-          case 'gbpusd':
-          case 'eurusd':
-            pipValue = 0.0001;
-            pipUSDPerLot = 10.00;
+          case "gbpjpy":
+            pips = priceDiff * 1000;
+            profit = !isNaN(tp) ? pips * 0.695 * lot : 0;
+            loss = !isNaN(sl) ? calcPips(entry, sl) * 1000 * 0.695 * lot : 0;
             break;
         }
-
-        let pips = Math.abs(exit - entry) / pipValue;
-        let profitLoss;
-
-        if (pair === 'xauusd') {
-          pips = pips / 10; // Keep this division as per your visual pips format
-          profitLoss = (pips * 10) * lotSize; // Your custom Gold profit formula
-        } else {
-          profitLoss = (pips * pipUSDPerLot) * lotSize;
-        }
-
-
-        document.getElementById("pipsResult").textContent = `Pips: ${pips.toFixed(1)}`;
-        document.getElementById("usdResult").textContent = `Profit/Loss (USD): $${profitLoss.toFixed(2)}`;
-        document.getElementById("resultsBox").style.display = "block";
-      } catch (err) {
-        alert("An error occurred: " + err.message);
-        console.error(err);
       }
+
+      const rr = calcRR();
+      const riskPercent = (loss > 0 && capital > 0) ? ((loss / capital) * 100).toFixed(2) : '-';
+      const profitMYR = conversion && profit ? (profit * conversion).toFixed(2) : '-';
+      const lossMYR = conversion && loss ? (loss * conversion).toFixed(2) : '-';
+
+      document.getElementById('pips').textContent = pips.toFixed(2);
+      document.getElementById('rr').textContent = rr;
+      document.getElementById('profitusd').textContent = profit.toFixed(2);
+      document.getElementById('profitmyr').textContent = profitMYR;
+      document.getElementById('lossusd').textContent = loss.toFixed(2);
+      document.getElementById('lossmyr').textContent = lossMYR;
+      document.getElementById('riskpercent').textContent = riskPercent + '%';
+
+      const riskClass = riskPercent === '-' ? '' :
+        riskPercent <= 10 ? 'risk-blue' :
+          riskPercent <= 25 ? 'risk-orange' : 'risk-danger';
+
+      const audioGood = document.getElementById("audioGood");
+      const audioCaution = document.getElementById("audioCaution");
+      const audioDanger = document.getElementById("audioDanger");
+
+
+      // update new animation 09 June 2025
+      const resultBox = document.getElementById('resultBox');
+
+      const spans = document.querySelectorAll('#resultBox span');
+
+      // Remove all animation classes from spans
+      spans.forEach(span => {
+        span.classList.remove('risk-blue', 'risk-orange', 'risk-danger');
+        void span.offsetWidth; // Force reflow to reset animation
+      });
+
+      // Apply the correct animation class based on risk %
+      if (riskPercent <= 10) {
+        spans.forEach(span => span.classList.add('risk-blue'));
+        audioGood.play();
+      } else if (riskPercent <= 25) {
+        spans.forEach(span => span.classList.add('risk-orange'));
+        audioCaution.play();
+      } else {
+        spans.forEach(span => span.classList.add('risk-danger'));
+        audioDanger.play();
+      }
+
+
+
+
+      document.getElementById('resultBox').style.display = 'block';
     }
   </script>
 </body>
